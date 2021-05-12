@@ -1,10 +1,14 @@
 """
-Parse DiddiScript files.
+Parse DiddiScript files and DiddiScript Setup files.
+
+For the console script, use:
+
+diddiparser [file] [--demo] [--is_setup]
 """
 
 __version__ = "1.0.0"
 __author__ = "Diego Ramirez (dr01191115@gmail.com) @DiddiLeija on GitHub"
-__platform__ = "win32"
+__platform__ = "win32" # retention for win32 only!
 
 # import the std libraries
 import sys
