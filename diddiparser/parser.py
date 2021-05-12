@@ -6,7 +6,6 @@ For the console script, use:
 diddiparser [file] [--demo] [--is_setup]
 """
 
-__version__ = "1.0.0"
 __author__ = "Diego Ramirez (dr01191115@gmail.com) @DiddiLeija on GitHub"
 __platform__ = "win32" # retention for win32 only!
 
