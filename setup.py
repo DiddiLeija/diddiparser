@@ -32,7 +32,6 @@ setuptools.setup(
         "Topic :: Games/Entertainment",
         "Topic :: Software Development"
     ],
-    keywords="aleatory dice coin roulette python aleat",
-    python_requires='>=3.6, <3.10',
-    install_requires=["pip>=21.0"] # Attempt to update the pip after instaling aleat3.
+    keywords="diddi diddiscript script files parse python",
+    python_requires='>=3.6, <3.10'
 )
