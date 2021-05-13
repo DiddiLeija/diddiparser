@@ -64,22 +64,26 @@ Go to __"Some function code rules"__, on this article.
 Use the `[lang]run()` syntax, like we used on Python:
 
 ```
-jsrun(...);   !# JavaScript code
-javarun(...); !# Java code
-crun(...);    !# C code
-cpprun(...);  !# C++ code
-csrun(...);   !# C# code
+!# (these are hypotetical examples, of course)
+jsrun(...);   !# JavaScript code?
+javarun(...); !# Java code?
+crun(...);    !# C code?
+cpprun(...);  !# C++ code?
+csrun(...);   !# C# code?
+
+!# (known language implementations below)
+pyrun(...);   !# Python code
 ```
 
 **Allowed languages:** Python.
 
-_(Other languages will be available in the future)._
+_\(Other languages will be available in the future. Reference to the issue [\#8](http://github.com/diddileija/diddiparser/issues/8) for discussing a possible language implementation\)._
 
 ## Redirect to _Ramz. Editions_ products
 
 The function `ramz_goto()` will try to find a Ramz. Editions application hosted
 on the `Program Files/Ramz Editions` folder, or just in the `Program Files`
-folder, in this case the parser will try to find a file `ramz.diddi` to get sure
+folder, in this case the parser will try to find a file named `ramz.diddi` to get sure
 that it is a Ramz Editions project.
 
 Taking `samplecode.diddi` as an example:
@@ -120,6 +124,9 @@ subprocess_run('python -m turtledemo.minimal_hanoi');
 ```
 
 ## Some function code rules
+
+DiddiScript functions has **strict rules**. There are 2 specific rules for
+those functions:
 
 1. You can only run one command at a time (__NOTE:__ don't use `;` on the Python
    code. I mean, __never__!).
