@@ -4,6 +4,8 @@ Parse DiddiScript files and DiddiScript Setup files.
 For the console script, use:
 
 diddiparser [file] [--demo] [--is_setup]
+
+(it uses "diddiparser/main")
 """
 
 __author__ = "Diego Ramirez (dr01191115@gmail.com) @DiddiLeija on GitHub"
@@ -21,10 +23,11 @@ import shlex
 if not __platform__ == sys.platform:
     sys.exit(f"this system is built for {__platform__} systems")
 # platform-depending std libraries here
-# (some implementations may vary)
+
+# FIXME: Needs POSIX implementation! Go to GitHub issue #6
 from os import startfile
 
-# give some exceprions
+# give some exceptions
 class DiddiScriptError(SyntaxError):
     pass
 class FilePrefixError(DiddiScriptError):
@@ -117,7 +120,7 @@ class DiddiScriptFile:
                     line = line.lstrip().replace(");", "").replace("'", "")
                     line = line[len("openfile "):len(line)-1]
                     try:
-                        startfile(line)
+                        startfile(line) # try not to move this func
                         print(f"Done opening {line}")
                     except Exception as e:
                         type, value, tb = sys.exc_info()
@@ -133,8 +136,9 @@ class DiddiScriptFile:
                     subprocess.run(shlex.split(line), shell=True)
                     print()
                 else:
-                    # it is known but not implemented yet
-                    print(str(NotImplemented)+"\n")
+                    # it is known - but not implemented yet
+                    # (this can include unknown language implementation)
+                    print("<Function not implemented: '%s'>"%line)
 
     def printCommands(self):
         "print all the commands from file."
@@ -164,7 +168,11 @@ class DiddiScriptFile:
 
     def __del__(self):
         if isinstance(self.io_file, io.TextIOWrapper):
+            # if TextIOWrapper is used, close it with the known "close()"
             self.io_file.close()
+        else:
+            # any idea of how to close any other file stream?
+            pass
 
 class DiddiScriptSetup(DiddiScriptFile):
     "class for setup DiddiScripts ('ramz.diddi')"
@@ -192,7 +200,9 @@ class DiddiScriptSetup(DiddiScriptFile):
 
 
 def demo():
-    # make a demo.
+    # make a simple demo.
+    # you need Colorama to run it with
+    # a pretty colored output.
     from colorama import init, Fore, Style
     import time
     init(autoreset=True)
