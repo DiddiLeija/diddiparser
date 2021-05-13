@@ -1,6 +1,7 @@
 # Add the console scripts here, as suggested on issue #1.
 
-from diddiparser.parser import DiddiScriptFile, DiddiScriptSetup, __version__, __doc__
+from diddiparser import __version__
+from diddiparser.parser import DiddiScriptFile, DiddiScriptSetup, __doc__ as parser_doc
 
 def main():
     # generate an argument parser for running DiddiScript files
@@ -24,7 +25,7 @@ def main():
                         default=False,
                         dest="demo",
                         help="run the DiddiParser demo.")
-    parser.usage = parser.format_usage()[len("usage: ") :] + __doc__
+    parser.usage = parser.format_usage()[len("usage: ") :] + parser_doc
     opts = parser.parse_args()
 
     # verify the args
