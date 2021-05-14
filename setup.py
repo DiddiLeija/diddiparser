@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="diddiparser",
-    version="1.0.0.dev1",
+    version="1.0.0",
     author="Diego Ramirez",
     author_email="dr01191115@gmail.com",
     description="Parser for DiddiScript files.",
@@ -16,7 +16,6 @@ setuptools.setup(
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Customer Service",
-        "Intended Audience :: Education",
         "Intended Audience :: Developers",
         "Natural Language :: English",
         "Programming Language :: Python :: 3",
@@ -29,7 +28,6 @@ setuptools.setup(
         "Operating System :: Microsoft :: Windows",
         "Operating System :: Microsoft :: Windows :: Windows 7",
         "Operating System :: Microsoft :: Windows :: Windows 8",
-        "Topic :: Games/Entertainment",
         "Topic :: Software Development"
     ],
     keywords="diddi diddiscript script files parse python",
