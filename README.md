@@ -9,7 +9,7 @@ environment.
 
 ## Usage of DiddiParser
 
-DiddiParser is a Python package, installable from PyPI:
+DiddiParser is a pure Python package, installable from [PyPI](http://pypi.org/project/diddiparser) with Pip:
 
 ```
 pip install diddiparser
@@ -18,6 +18,7 @@ pip install diddiparser
 Then, import the features like this:
 
 ```python
-# future feature files will be added here
+# new feature files will be added here with the
+# known features...
 from diddiparser.parser import DiddiScriptFile
 ```
