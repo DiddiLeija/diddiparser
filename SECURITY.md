@@ -3,8 +3,8 @@
 ## Supported Versions
 
 The supported versions \(Those with a :white_check_mark:\) can be tracked on the [issues page](http://github.com/diddileija/diddiparser/issues) 
-and can be merged by [pull requests](http://github.com/diddileija/diddiparser/pulls) on the specific tag. Those versions to be deprecated soon
-\(Those with a :warning:\) are still having support, but they won't be supported in the future. And those that are yanked yanked \(on PyPI\) or deprecated 
+and can be merged by [pull requests](http://github.com/diddileija/diddiparser/pulls) on the specific tag. Versions to be deprecated soon
+\(Those with a :warning:\) are still having support, but they won't be supported in the future. And versions yanked yanked \(on PyPI\) or deprecated 
 won't have any support. Try not to open issues or PRs about those versions \(This includes all of the versions with a :x:\).
 
 All the published versions are listed above
