@@ -11,6 +11,7 @@ All the published versions are listed above
 
 | Version | Supported          | Release status      |
 | ------- | ------------------ | ------------------- |
+| 1.1.0   | :white_check_mark: | On development      |
 | 1.0.0   | :white_check_mark: | Latest              |
 
 
