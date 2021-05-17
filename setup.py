@@ -34,5 +34,10 @@ setuptools.setup(
     project_urls={
         "Documentation": "http://github.com/diddileija/diddiparser/blob/main/README.md",
         "Tracker": "http://github.com/diddileija/diddiparser/issues"
-    }
+    },
+    entry_points={
+        "console_scripts": [
+            "diddiparser=diddiparser.main:main"
+        ]
+    }  
 )
