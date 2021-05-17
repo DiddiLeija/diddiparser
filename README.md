@@ -1,3 +1,5 @@
+![DiddiScript icon](https://github.com/DiddiLeija/DiddiLeija/blob/main/diddiscript-icon-(short).png)
+
 # DiddiParser
 
 Parse DiddiScript files and run their simple syntax.
