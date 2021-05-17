@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="diddiparser",
-    version="1.0.0",
+    version="1.1.0",
     author="Diego Ramirez",
     author_email="dr01191115@gmail.com",
     description="Parser for DiddiScript files.",
@@ -31,5 +31,9 @@ setuptools.setup(
         "Topic :: Software Development"
     ],
     keywords="diddi diddiscript script files parse python",
-    python_requires='>=3.6, <3.10'
+    python_requires='>=3.6, <3.10',
+    project_urls={
+        "Documentation": "http://github.com/diddileija/diddiparser/blob/main/README.md",
+        "Tracker": "http://github.com/diddileija/diddiparser/issues"
+    }
 )
