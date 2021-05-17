@@ -1,7 +1,10 @@
 # Add the console scripts here, as suggested on issue #1.
 
 from diddiparser import __version__
-from diddiparser.parser import DiddiScriptFile, DiddiScriptSetup, __doc__ as parser_doc
+from diddiparser.parser import (DiddiScriptFile, 
+                                DiddiScriptSetup, 
+                                demo)
+from diddiparser.parser import __doc__ as parser_doc
 
 def main():
     # generate an argument parser for running DiddiScript files
