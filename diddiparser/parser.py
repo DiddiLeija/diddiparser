@@ -47,7 +47,7 @@ class DiddiScriptFile:
 
     def __init__(self,
                  pathname,
-                 func=io.open,
+                 func=None,
                  adapt=False,
                  py_locals=None):
         "constructor, use a 'pathname' to open the file."
@@ -59,8 +59,12 @@ class DiddiScriptFile:
                          " file. The parser will try to adapt it.", PrefixWarning)
         if py_locals is None:
             py_locals = {"__name__": "__console__", "__doc__": None}
+        if func is None:
+            func = io.open
+            self.io_file = func(pathname, "r")
+        else:
+            func(pathname)
         self.py_locals = py_locals
-        self.io_file = func(pathname, "r")
         self.file = None
         self.pathname = pathname
         self.extractcode()
