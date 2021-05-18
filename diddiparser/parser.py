@@ -35,6 +35,10 @@ class FilePrefixError(DiddiScriptError):
 class PrefixWarning(UserWarning):
     pass
 
+# convert from string to a good stream, maybe used when using string scripts instead of pathnames
+def stringToScript(diddi_str):
+    return diddi_str.splitlines()
+
 # add here the known functions
 KNOWN_FUNCS = ["pyrun",
                "ramz_goto",
@@ -47,7 +51,7 @@ class DiddiScriptFile:
 
     def __init__(self,
                  pathname,
-                 func=io.open,
+                 func=None,
                  adapt=False,
                  py_locals=None):
         "constructor, use a 'pathname' to open the file."
@@ -59,8 +63,12 @@ class DiddiScriptFile:
                          " file. The parser will try to adapt it.", PrefixWarning)
         if py_locals is None:
             py_locals = {"__name__": "__console__", "__doc__": None}
+        if func is None:
+            func = io.open
+            self.io_file = func(pathname, "r")
+        else:
+            func(pathname)
         self.py_locals = py_locals
-        self.io_file = func(pathname, "r")
         self.file = None
         self.pathname = pathname
         self.extractcode()
@@ -203,10 +211,37 @@ def demo():
     # make a simple demo.
     # you need Colorama to run it with
     # a pretty colored output.
+    
+    # add a string, instead of calling the file with io.open()
+    file_string = """
+/*
+   - Sample code
+
+   These lines must be ignored by the interpreter. I will enter some
+   dummy code. Ignore them by now.
+*/
+
+!# Run the easiest Python 3 code ever!
+
+pyrun('print("Hello world!")');
+
+!# Open some Ramz Editions features (use 'ramz_goto()'):
+
+ramz_goto('DiddiCmd');         !# DiddiCmd
+ramz_goto('Control de Agua');  !# DiddiOS 3
+
+!# Open a file
+
+openfile('C:/Program Files/Ramz Editions/people.txt');
+
+!# Open a python "subprocess.Popen()"
+
+subprocess_run('python -m turtledemo.minimal_hanoi');"""
+    # run the demo
     from colorama import init, Fore, Style
     import time
     init(autoreset=True)
-    dsf = DiddiScriptFile("C:/Program Files/Ramz Editions/user/samplecode.diddi")
+    dsf = DiddiScriptFile(file_string, func=stringToScript) # implement this func
     print("Running demo... please wait...")
     time.sleep(1)
     print(Fore.GREEN+Style.BRIGHT+"File opened succesfully!")
