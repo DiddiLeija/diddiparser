@@ -24,3 +24,7 @@ Then, import the features like this:
 # known features...
 from diddiparser.parser import DiddiScriptFile
 ```
+
+## More help is here!
+
+Go to [SECURITY.md](http://github.com/diddileija/diddiparser/blob/main/SECURITY.md) to view the supported versions and security advisories. Or go to the related [wiki](http://github.com/diddileija/diddiparser/wiki/Home) to read a larger explanation of the package contents.
