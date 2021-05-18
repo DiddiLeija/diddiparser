@@ -35,6 +35,10 @@ class FilePrefixError(DiddiScriptError):
 class PrefixWarning(UserWarning):
     pass
 
+# convert from string to a good stream, maybe used when using string scripts instead of pathnames
+def stringToScript(diddi_str):
+    return diddi_str.splitlines()
+
 # add here the known functions
 KNOWN_FUNCS = ["pyrun",
                "ramz_goto",
@@ -237,7 +241,7 @@ subprocess_run('python -m turtledemo.minimal_hanoi');"""
     from colorama import init, Fore, Style
     import time
     init(autoreset=True)
-    dsf = DiddiScriptFile(file_string)
+    dsf = DiddiScriptFile(file_string, func=stringToScript) # implement this func
     print("Running demo... please wait...")
     time.sleep(1)
     print(Fore.GREEN+Style.BRIGHT+"File opened succesfully!")
