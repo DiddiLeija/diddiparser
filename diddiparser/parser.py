@@ -203,10 +203,37 @@ def demo():
     # make a simple demo.
     # you need Colorama to run it with
     # a pretty colored output.
+    
+    # add a string, instead of calling the file with io.open()
+    file_string = """
+/*
+   - Sample code
+
+   These lines must be ignored by the interpreter. I will enter some
+   dummy code. Ignore them by now.
+*/
+
+!# Run the easiest Python 3 code ever!
+
+pyrun('print("Hello world!")');
+
+!# Open some Ramz Editions features (use 'ramz_goto()'):
+
+ramz_goto('DiddiCmd');         !# DiddiCmd
+ramz_goto('Control de Agua');  !# DiddiOS 3
+
+!# Open a file
+
+openfile('C:/Program Files/Ramz Editions/people.txt');
+
+!# Open a python "subprocess.Popen()"
+
+subprocess_run('python -m turtledemo.minimal_hanoi');"""
+    # run the demo
     from colorama import init, Fore, Style
     import time
     init(autoreset=True)
-    dsf = DiddiScriptFile("C:/Program Files/Ramz Editions/user/samplecode.diddi")
+    dsf = DiddiScriptFile(file_string)
     print("Running demo... please wait...")
     time.sleep(1)
     print(Fore.GREEN+Style.BRIGHT+"File opened succesfully!")
