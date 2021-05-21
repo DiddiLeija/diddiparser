@@ -11,6 +11,17 @@ diddiparser [file] [--demo] [--is_setup]
 __author__ = "Diego Ramirez (dr01191115@gmail.com) @DiddiLeija on GitHub"
 __platform__ = "win32" # retention for win32 only!
 
+# use an __all__ sequence to control the "import *"
+__all__ = ["stringToScript", 
+           "DiddiScriptError", 
+           "FileSuffixError",
+           "SuffixWarning",
+           "stringToScript",
+           "KNOWN_FUNCS",
+           "DiddiScriptFile", 
+           "DiddiScriptSetup", 
+           "demo"]
+
 # import the std libraries
 import sys
 import io
@@ -30,9 +41,11 @@ from os import startfile
 # give some exceptions
 class DiddiScriptError(SyntaxError):
     pass
-class FilePrefixError(DiddiScriptError):
+class FileSuffixError(DiddiScriptError):
+    # we are talking about suffixes (the file extension), aren't we?
     pass
-class PrefixWarning(UserWarning):
+class SuffixWarning(UserWarning):
+    # we are talking about suffixes (the file extension), aren't we?
     pass
 
 # convert from string to a good stream, maybe used when using string scripts instead of pathnames
@@ -254,3 +267,4 @@ subprocess_run('python -m turtledemo.minimal_hanoi');"""
     print(Fore.BLUE+Style.BRIGHT+"=-"*30 + "=")
     print(Fore.GREEN+Style.BRIGHT+"DONE!")
 
+d
