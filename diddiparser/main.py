@@ -1,10 +1,20 @@
+# Add a docstring as we mentioned on PR #15.
+"""
+Parse DiddiScript files and DiddiScript Setup files.
+
+For the console script, use one of this options:
+
+diddiparser [file]
+diddiparser [file] --is_setup
+diddiparser --demo
+"""
+
 # Add the console scripts here, as suggested on issue #1.
 
 from diddiparser import __version__
 from diddiparser.parser import (DiddiScriptFile, 
                                 DiddiScriptSetup, 
                                 demo)
-from diddiparser.parser import __doc__ as parser_doc
 
 def main():
     # generate an argument parser for running DiddiScript files
@@ -28,7 +38,7 @@ def main():
                         default=False,
                         dest="demo",
                         help="run the DiddiParser demo.")
-    parser.usage = parser.format_usage()[len("usage: ") :] + parser_doc
+    parser.usage = parser.format_usage()[len("usage: ") :] + __doc__
     opts = parser.parse_args()
 
     # verify the args

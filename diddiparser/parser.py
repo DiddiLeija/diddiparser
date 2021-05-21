@@ -1,15 +1,18 @@
-"""
-Parse DiddiScript files and DiddiScript Setup files.
-
-For the console script, use:
-
-diddiparser [file] [--demo] [--is_setup]
-
-(it uses "diddiparser/main")
-"""
+"The main parsing tools."
 
 __author__ = "Diego Ramirez (dr01191115@gmail.com) @DiddiLeija on GitHub"
 __platform__ = "win32" # retention for win32 only!
+
+# use an __all__ sequence to control the "import *"
+__all__ = ["stringToScript", 
+           "DiddiScriptError", 
+           "FileSuffixError",
+           "SuffixWarning",
+           "stringToScript",
+           "KNOWN_FUNCS",
+           "DiddiScriptFile", 
+           "DiddiScriptSetup", 
+           "demo"]
 
 # import the std libraries
 import sys
@@ -30,9 +33,11 @@ from os import startfile
 # give some exceptions
 class DiddiScriptError(SyntaxError):
     pass
-class FilePrefixError(DiddiScriptError):
+class FileSuffixError(DiddiScriptError):
+    # we are talking about suffixes (the file extension), aren't we?
     pass
-class PrefixWarning(UserWarning):
+class SuffixWarning(UserWarning):
+    # we are talking about suffixes (the file extension), aren't we?
     pass
 
 # convert from string to a good stream, maybe used when using string scripts instead of pathnames
@@ -55,19 +60,24 @@ class DiddiScriptFile:
                  adapt=False,
                  py_locals=None):
         "constructor, use a 'pathname' to open the file."
-        if not pathname.endswith(".diddi") and not adapt:
-            raise FilePrefixError(f"Pathname '{pathname}' does not refer to a DiddiScript file")
-        elif adapt is True:
-            warnngs.warn("You are attempting to open"
-                         " another kind of file as a DiddiScript"
-                         " file. The parser will try to adapt it.", PrefixWarning)
-        if py_locals is None:
-            py_locals = {"__name__": "__console__", "__doc__": None}
         if func is None:
+            # you will need io.open, maybe a SuffixError
+            # must be raised
+            if not pathname.endswith(".diddi") and not adapt:
+                raise FilePrefixError(f"Pathname '{pathname}' does not refer to a DiddiScript file")
+            elif adapt is True:
+                warnngs.warn("You are attempting to open"
+                             " another kind of file as a DiddiScript"
+                             " file. The parser will try to adapt it.", PrefixWarning)
+            # use io.open for the file streaming
             func = io.open
             self.io_file = func(pathname, "r")
         else:
+            # only use the function and ignore anything else
             func(pathname)
+        # set the Python __locals__ for the Python code
+        if py_locals is None:
+            py_locals = {"__name__": "__console__", "__doc__": None}
         self.py_locals = py_locals
         self.file = None
         self.pathname = pathname
@@ -225,11 +235,6 @@ def demo():
 
 pyrun('print("Hello world!")');
 
-!# Open some Ramz Editions features (use 'ramz_goto()'):
-
-ramz_goto('DiddiCmd');         !# DiddiCmd
-ramz_goto('Control de Agua');  !# DiddiOS 3
-
 !# Open a file
 
 openfile('C:/Program Files/Ramz Editions/people.txt');
@@ -253,4 +258,5 @@ subprocess_run('python -m turtledemo.minimal_hanoi');"""
     dsf.runfile()
     print(Fore.BLUE+Style.BRIGHT+"=-"*30 + "=")
     print(Fore.GREEN+Style.BRIGHT+"DONE!")
+
 
