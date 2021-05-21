@@ -68,19 +68,24 @@ class DiddiScriptFile:
                  adapt=False,
                  py_locals=None):
         "constructor, use a 'pathname' to open the file."
-        if not pathname.endswith(".diddi") and not adapt:
-            raise FilePrefixError(f"Pathname '{pathname}' does not refer to a DiddiScript file")
-        elif adapt is True:
-            warnngs.warn("You are attempting to open"
-                         " another kind of file as a DiddiScript"
-                         " file. The parser will try to adapt it.", PrefixWarning)
-        if py_locals is None:
-            py_locals = {"__name__": "__console__", "__doc__": None}
         if func is None:
+            # you will need io.open, maybe a SuffixError
+            # must be raised
+            if not pathname.endswith(".diddi") and not adapt:
+                raise FilePrefixError(f"Pathname '{pathname}' does not refer to a DiddiScript file")
+            elif adapt is True:
+                warnngs.warn("You are attempting to open"
+                             " another kind of file as a DiddiScript"
+                             " file. The parser will try to adapt it.", PrefixWarning)
+            # use io.open for the file streaming
             func = io.open
             self.io_file = func(pathname, "r")
         else:
+            # only use the function and ignore anything else
             func(pathname)
+        # set the Python __locals__ for the Python code
+        if py_locals is None:
+            py_locals = {"__name__": "__console__", "__doc__": None}
         self.py_locals = py_locals
         self.file = None
         self.pathname = pathname
