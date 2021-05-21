@@ -243,11 +243,6 @@ def demo():
 
 pyrun('print("Hello world!")');
 
-!# Open some Ramz Editions features (use 'ramz_goto()'):
-
-ramz_goto('DiddiCmd');         !# DiddiCmd
-ramz_goto('Control de Agua');  !# DiddiOS 3
-
 !# Open a file
 
 openfile('C:/Program Files/Ramz Editions/people.txt');
