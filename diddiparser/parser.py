@@ -1,12 +1,4 @@
-"""
-Parse DiddiScript files and DiddiScript Setup files.
-
-For the console script, use:
-
-diddiparser [file] [--demo] [--is_setup]
-
-(it uses "diddiparser/main")
-"""
+"The main parsing tools."
 
 __author__ = "Diego Ramirez (dr01191115@gmail.com) @DiddiLeija on GitHub"
 __platform__ = "win32" # retention for win32 only!
