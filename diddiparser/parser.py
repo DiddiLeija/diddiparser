@@ -1,7 +1,6 @@
 "The main parsing tools."
 
 __author__ = "Diego Ramirez (dr01191115@gmail.com) @DiddiLeija on GitHub"
-__platform__ = "win32" # retention for win32 only!
 
 # use an __all__ sequence to control the "import *"
 __all__ = ["stringToScript", 
@@ -23,7 +22,7 @@ import os
 import subprocess
 import shlex
 # test if the platform is correct before importing the other libraries
-if not __platform__ == sys.platform:
+if sys.platform != "win32":
     sys.exit(f"this system is built for {__platform__} systems")
 # platform-depending std libraries here
 
