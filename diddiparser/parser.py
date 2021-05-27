@@ -120,7 +120,7 @@ class DiddiScriptFile:
                     try:
                         line = line.lstrip().replace(");", "").replace("'", "")
                         exec(line[len("pyrun "):len(line)-1], self.py_locals)
-                    except BaseException as e:
+                    except Exception as e:
                         type, value, tb = sys.exc_info()
                         sys.last_type = type
                         sys.last_value = value
