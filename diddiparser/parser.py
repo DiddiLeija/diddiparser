@@ -1,7 +1,5 @@
 "The main parsing tools."
 
-__author__ = "Diego Ramirez (dr01191115@gmail.com) @DiddiLeija on GitHub"
-
 # use an __all__ sequence to control the "import *"
 __all__ = ["stringToScript", 
            "DiddiScriptError", 
