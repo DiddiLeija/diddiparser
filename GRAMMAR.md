@@ -104,6 +104,8 @@ simple error message like:
 FileNotFoundError: The Ramz Editions file you are looking for does not exists
 ```
 
+_NOTE:_ This is just an experimental function, that will be applied when Ramz Editions is launched to the world.
+
 ## Open other kind of files
 
 Use `openfile()` to open a known file on any direction on the disk. For example,
