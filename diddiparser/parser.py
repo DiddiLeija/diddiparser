@@ -31,10 +31,8 @@ from os import startfile
 class DiddiScriptError(SyntaxError):
     pass
 class FileSuffixError(DiddiScriptError):
-    # we are talking about suffixes (the file extension), aren't we?
     pass
 class SuffixWarning(UserWarning):
-    # we are talking about suffixes (the file extension), aren't we?
     pass
 
 # convert from string to a good stream, maybe used when using string scripts instead of pathnames
@@ -61,11 +59,11 @@ class DiddiScriptFile:
             # you will need io.open, maybe a SuffixError
             # must be raised
             if not pathname.endswith(".diddi") and not adapt:
-                raise FilePrefixError(f"Pathname '{pathname}' does not refer to a DiddiScript file")
+                raise FileSuffixError(f"Pathname '{pathname}' does not refer to a DiddiScript file")
             elif adapt is True:
                 warnngs.warn("You are attempting to open"
                              " another kind of file as a DiddiScript"
-                             " file. The parser will try to adapt it.", PrefixWarning)
+                             " file. The parser will try to adapt it.", SuffixWarning)
             # use io.open for the file streaming
             func = io.open
             self.io_file = func(pathname, "r")
