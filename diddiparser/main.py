@@ -2,7 +2,8 @@
 """
 Parse DiddiScript files and DiddiScript Setup files.
 
-For the console script, use one of this options:
+For the console script, use one of this option 
+combinations:
 
 diddiparser [file]
 diddiparser [file] --is_setup
@@ -15,6 +16,7 @@ from diddiparser import __version__
 from diddiparser.parser import (DiddiScriptFile, 
                                 DiddiScriptSetup, 
                                 demo)
+import os
 
 def main():
     # generate an argument parser for running DiddiScript files
@@ -37,7 +39,7 @@ def main():
                         action="store_true",
                         default=False,
                         dest="demo",
-                        help="run the DiddiParser demo.")
+                        help="Run the DiddiParser demo.")
     parser.usage = parser.format_usage()[len("usage: ") :] + __doc__
     opts = parser.parse_args()
 
