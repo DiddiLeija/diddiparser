@@ -1,3 +1,5 @@
+![DiddiScript icon](https://github.com/DiddiLeija/DiddiLeija/blob/main/diddiscript-icon-(short).png)
+
 # The DiddiScript grammar
 
 ## About the language
