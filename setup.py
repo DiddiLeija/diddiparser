@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="diddiparser",
-    version="1.1.0",
+    version="1.1.1",
     author="Diego Ramirez",
     author_email="dr01191115@gmail.com",
     description="Parser for DiddiScript files.",
