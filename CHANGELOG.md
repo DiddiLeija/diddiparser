@@ -1,5 +1,9 @@
 # DiddiParser versions
 
+## diddiparser 1.1.1
+
+- Bug fixes
+
 ## diddiparser 1.1.0
 
 - Added a specific console script: `diddiparser`.
