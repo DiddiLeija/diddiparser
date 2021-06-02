@@ -4,6 +4,8 @@
 
 - Bug fixes
   - Fixed the constructor method on `aleat3.constructor.Aleatoryous`.
+- Trivial fixes
+  - The `__author__` is now placed on `aleat3.__init__`
 
 ## diddiparser 1.1.0
 
