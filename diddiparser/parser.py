@@ -69,7 +69,7 @@ class DiddiScriptFile:
             self.io_file = func(pathname, "r")
         else:
             # only use the function and ignore anything else
-            func(pathname)
+            self.io_file = func(pathname)
         # set the Python __locals__ for the Python code
         if py_locals is None:
             py_locals = {"__name__": "__console__", "__doc__": None}
