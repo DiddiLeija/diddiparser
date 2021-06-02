@@ -3,6 +3,7 @@
 ## diddiparser 1.1.1
 
 - Bug fixes
+  - Fixed the constructor method on `aleat3.constructor.Aleatoryous`.
 
 ## diddiparser 1.1.0
 
