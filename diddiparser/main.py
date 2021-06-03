@@ -24,7 +24,7 @@ def main():
     parser = argparse.ArgumentParser(prog=__name__,
                                      description="Parse DiddiScript script files "
                                                  "and DiddiScript setup files with "
-                                                 "a simple interface.")
+                                                 "a simple command-line interface.")
     parser.add_argument("-v", "--version", action="version", version=__version__)
     parser.add_argument("file", nargs="?", metavar="FILE")
     parser.add_argument("-s",
