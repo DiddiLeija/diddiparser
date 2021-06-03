@@ -20,4 +20,4 @@ updates:
       timezone: "America/Mexico_City" # use my latest timezone
     # Labels on pull requests for version updates only
     labels:
-      - "pip dependencies"
+      - "pip dependencies" # look for all the pip dependencies
