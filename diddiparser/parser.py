@@ -91,11 +91,14 @@ class DiddiScriptFile:
             elif stop and "*/" in line:
                 # block comment ends
                 stop = False
-                continue
+                line = line[line.find("*/") + 2:].lstrip() # try to extract something after the comment block
             if "/*" in line:
                 # start block comment, stop reading
                 stop = True
-                continue
+                if "*/" in line:
+                    # it just covers one line, but it will be parsed as commonly
+                    stop = False
+                line = line[:line.find("/*")].lstrip() # try to extract something before the comment block
             # replace the single-line comments
             cmd = line.split("!#")[0].rstrip()
             # enter the command
