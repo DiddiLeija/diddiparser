@@ -9,3 +9,6 @@ include README.md
 
 # don't forget the setup.py file
 include setup.py
+
+# don't use the ".github/" things
+exclude .github
