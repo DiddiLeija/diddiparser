@@ -15,16 +15,13 @@ DiddiParser is a pure Python package, installable from [PyPI](http://pypi.org/pr
 pip install diddiparser
 ```
 
-Then, import the features like this:
+Then, import the features like this example:
 
 ```python
-# new feature files will be added here with the
-# known features...
 from diddiparser.parser import (DiddiScriptFile,
                                 DiddiScriptSetup,
                                 stringToScript,
                                 demo)
-from diddiparser.main import main
 from diddiparser import __version__, __author__
 ```
 
