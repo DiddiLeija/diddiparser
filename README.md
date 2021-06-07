@@ -7,7 +7,7 @@ Parse DiddiScript files and run their simple syntax.
 Refer to [GRAMMAR.md](http://github.com/diddileija/diddiparser/blob/main/GRAMMAR.md) to learn about the DiddiScript
 environment.
 
-## Usage of DiddiParser
+## DiddiParser installation
 
 DiddiParser is a pure Python package, installable from [PyPI](http://pypi.org/project/diddiparser) with Pip:
 
@@ -15,7 +15,11 @@ DiddiParser is a pure Python package, installable from [PyPI](http://pypi.org/pr
 pip install diddiparser
 ```
 
-Then, import the features like this example:
+## Usage of DiddiParser
+
+After installing, import the features like this examples:
+
+### Using DiddiParser on Python scripts
 
 ```python
 from diddiparser.parser import (DiddiScriptFile,
@@ -23,6 +27,18 @@ from diddiparser.parser import (DiddiScriptFile,
                                 stringToScript,
                                 demo)
 from diddiparser import __version__, __author__
+```
+
+### Module command-line options
+
+```
+python -m diddiparser.main [args]
+```
+
+### Specific console script
+
+```
+diddiparser [args]
 ```
 
 ## More help is here!
