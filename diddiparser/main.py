@@ -18,7 +18,7 @@ from diddiparser.parser import (DiddiScriptFile,
                                 demo)
 import os
 
-def main():
+def get_parser():
     # generate an argument parser for running DiddiScript files
     import argparse
     parser = argparse.ArgumentParser(prog=__name__,
@@ -41,8 +41,11 @@ def main():
                         dest="demo",
                         help="Run the DiddiParser demo.")
     parser.usage = parser.format_usage()[len("usage: ") :] + __doc__
+    return parser
+    
+def main():
+    parser = get_parser()
     opts = parser.parse_args()
-
     # verify the args
     if opts.demo is True and opts.is_setup is True:
         parser.error("--demo and --is-setup cannot be both true")
