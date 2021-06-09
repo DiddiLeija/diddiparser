@@ -39,5 +39,6 @@ setuptools.setup(
         "console_scripts": [
             "diddiparser=diddiparser.main:main"
         ]
-    }  
+    },
+    install_requires = ["colorama"] # require the colorama package
 )
