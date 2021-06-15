@@ -17,10 +17,10 @@ from diddiparser.parser import (DiddiScriptFile,
                                 DiddiScriptSetup, 
                                 demo)
 import os
+import argparse
 
-def get_parser():
+def get_parser() -> argparse.ArgumentParser:
     # generate an argument parser for running DiddiScript files
-    import argparse
     parser = argparse.ArgumentParser(prog=__name__,
                                      description="Parse DiddiScript script files "
                                                  "and DiddiScript setup files with "
@@ -43,7 +43,7 @@ def get_parser():
     parser.usage = parser.format_usage()[len("usage: ") :] + __doc__
     return parser
     
-def main():
+def main() -> None:
     parser = get_parser()
     opts = parser.parse_args()
     # verify the args
