@@ -36,7 +36,7 @@ class SuffixWarning(UserWarning):
     pass
 
 # convert from string to a good stream, maybe used when using string scripts instead of pathnames
-def stringToScript(diddi_str):
+def stringToScript(diddi_str: str) -> list:
     return diddi_str.splitlines()
 
 # add here the known functions
@@ -50,10 +50,10 @@ class DiddiScriptFile:
     "open a DiddiScript file and give options to parse."
 
     def __init__(self,
-                 pathname,
-                 func=None,
-                 adapt=False,
-                 py_locals=None):
+                 pathname: str,
+                 func: io.open = None,
+                 adapt: bool = False,
+                 py_locals: dict = None) -> None:
         "constructor, use a 'pathname' to open the file."
         if func is None:
             # you will need io.open, maybe a SuffixError
@@ -78,7 +78,7 @@ class DiddiScriptFile:
         self.pathname = pathname
         self.extractcode()
 
-    def extractcode(self):
+    def extractcode(self) -> None:
         "delete the comments."
         self.file = []
         stop = False
@@ -108,7 +108,7 @@ class DiddiScriptFile:
                 self.file.append(cmd[:len(cmd)- 1])
             del(cmd)
 
-    def runfile(self):
+    def runfile(self) -> None:
         "'compile' the file defined on the __init__ and run."
         if self.file is None or len(self.file) == 0:
             raise DiddiScriptError(f"The command list is empty")
@@ -156,12 +156,12 @@ class DiddiScriptFile:
                     # (this can include unknown language implementation)
                     print("<Function not implemented: '%s'>"%line)
 
-    def printCommands(self):
+    def printCommands(self) -> None:
         "print all the commands from file."
         for cmd in self.file:
             print(cmd)
 
-    def openRamz(self, path):
+    def openRamz(self, path: str) -> None:
         "redirect to a Ramz Editions app."
         if os.path.exists(f"c:/program files/ramz editions/{path.lower()}/build/exe.win32-3.8/{path.lower()}.exe"):
             # it is hosted on "C:/Program Files/Ramz Editions"
@@ -182,7 +182,7 @@ class DiddiScriptFile:
                 traceback.print_exception(type, value, sys.last_traceback)
                 print()
 
-    def __del__(self):
+    def __del__(self) -> None:
         if isinstance(self.io_file, io.TextIOWrapper):
             # if TextIOWrapper is used, close it with the known "close()"
             self.io_file.close()
@@ -196,10 +196,10 @@ class DiddiScriptSetup(DiddiScriptFile):
     productName = None
 
     def __init__(self,
-                 pathname,
-                 func=io.open,
-                 adapt=False,
-                 py_locals=None):
+                 pathname: str,
+                 func: io.open = None,
+                 adapt: bool = False,
+                 py_locals: dict = None):
         "Almost the same than the inherited __init__, but also tries to run the variable stuff..."
         DiddiScriptFile.__init__(self, pathname, func, adapt, py_locals)
         for line in self.file:
@@ -210,12 +210,12 @@ class DiddiScriptSetup(DiddiScriptFile):
         if not self.isRamzEdProduct() or not pathname.endswith("ramz.diddi"):
             raise DiddiScriptError(f"This file is not a DiddiScript setup file ('ramz.diddi')")
 
-    def isRamzEdProduct(self):
+    def isRamzEdProduct(self) -> None:
         "verify if the Diddi file is a real project setup file."
         return True if self.file is not None and self.productName is not None and self.productDir is not None else False
 
 
-def demo():
+def demo() -> None:
     # make a simple demo.
     # you need Colorama to run it with
     # a pretty colored output.
