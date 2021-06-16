@@ -31,11 +31,16 @@ from diddiparser import __version__, __author__
 
 ### Module command-line options
 
+We created `diddiparser.main` for doing this. Use it as follows:
+
 ```
 python -m diddiparser.main [args]
 ```
 
 ### Specific console script
+
+You don't even need to call the `diddiparser.main` module. Just use
+the linked console script:
 
 ```
 diddiparser [args]
