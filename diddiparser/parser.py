@@ -19,6 +19,7 @@ import traceback
 import os
 import subprocess
 import shlex
+from typing import Optional, Callable
 # test if the platform is correct before importing the other libraries
 if sys.platform != "win32":
     sys.exit(f"this system is built for {__platform__} systems")
@@ -51,9 +52,9 @@ class DiddiScriptFile:
 
     def __init__(self,
                  pathname: str,
-                 func: io.open = None,
+                 func: Optional[Callable] = None,
                  adapt: bool = False,
-                 py_locals: dict = None) -> None:
+                 py_locals: Optional[dict] = None) -> None:
         "constructor, use a 'pathname' to open the file."
         if func is None:
             # you will need io.open, maybe a SuffixError
@@ -197,9 +198,9 @@ class DiddiScriptSetup(DiddiScriptFile):
 
     def __init__(self,
                  pathname: str,
-                 func: io.open = None,
+                 func: Optional[Callable] = None,
                  adapt: bool = False,
-                 py_locals: dict = None):
+                 py_locals: Optional[dict] = None):
         "Almost the same than the inherited __init__, but also tries to run the variable stuff..."
         DiddiScriptFile.__init__(self, pathname, func, adapt, py_locals)
         for line in self.file:
