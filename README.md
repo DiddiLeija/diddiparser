@@ -34,6 +34,7 @@ from diddiparser import __version__, __author__
 We created `diddiparser.main` for doing this. Use it as follows:
 
 ```
+python -m diddiparser [args]
 python -m diddiparser.main [args]
 ```
 
