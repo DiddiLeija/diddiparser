@@ -139,27 +139,6 @@ class DiddiScriptFile:
         for cmd in self.file:
             print(cmd)
 
-    def openRamz(self, path: str) -> None:
-        "redirect to a Ramz Editions app."
-        if os.path.exists(f"c:/program files/ramz editions/{path.lower()}/build/exe.win32-3.8/{path.lower()}.exe"):
-            # it is hosted on "C:/Program Files/Ramz Editions"
-            startfile(f"c:/program files/ramz editions/{path.lower()}/build/exe.win32-3.8/{path.lower()}.exe")
-        elif os.path.exists(f"c:/program files/{path.lower()}/.ramz/ramz.diddi") and os.path.exists(f"c:/program files/{path.lower()}/build/exe.win32-3.8/{path.lower()}.exe"):
-            # not hosted in the "Ramz Editions" folder, but its "ramz.diddi" reveals it is from Ramz Editions at all
-            setup_file = DiddiScriptSetup(f"c:/program files/{path.lower()}/.ramz/ramz.diddi")
-            startfile(f"c:/program files/{path.lower()}/build/exe.win32-3.8/{path.lower()}.exe")
-        else:
-            # build a safe exception
-            try:
-                raise FileNotFoundError(f"Ramz Ed. app '{path}' does not exists or it is not a Ramz Ed. product")
-            except Exception as e:
-                type, value, tb = sys.exc_info()
-                sys.last_type = type
-                sys.last_value = value
-                sys.last_traceback = tb
-                traceback.print_exception(type, value, sys.last_traceback)
-                print()
-
     def __del__(self) -> None:
         if isinstance(self.io_file, io.TextIOWrapper):
             # if TextIOWrapper is used, close it with the known "close()"
@@ -186,7 +165,7 @@ class DiddiScriptSetup(DiddiScriptFile):
             elif line.startswith("RamzProductDir = "):
                 self.productDir = line[len("RamzProductDir = "):len(line)-1].replace('"', '')
         if not self.isRamzEdProduct() or not pathname.endswith("ramz.diddi"):
-            raise DiddiScriptError(f"This file is not a DiddiScript setup file ('ramz.diddi')")
+            raise DiddiScriptError(f"This file is not a DiddiScript setup file ('ramz.diddi' is missing!)")
 
     def isRamzEdProduct(self) -> None:
         "verify if the Diddi file is a real project setup file."
