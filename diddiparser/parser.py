@@ -44,8 +44,8 @@ def stringToScript(diddi_str: str) -> list:
 # add here the known functions
 KNOWN_FUNCS = {"pyrun": functions.pyrun,
                "ramz_goto": functions.ramz_goto,
-               "openfile",
-               "subprocess_run"}
+               "openfile": functions.openfile,
+               "subprocess_run": functions.subprocess_run}
 
 # build the complex parser from zero
 class DiddiScriptFile:
