@@ -15,7 +15,6 @@ __all__ = ["stringToScript",
 import sys
 import io
 import warnings
-import traceback
 import os
 import subprocess
 import shlex
@@ -26,6 +25,8 @@ if sys.platform != "win32":
     # http://github.com/diddiparser/issues/6
     sys.exit(f"this package only accepts win32 platforms")
 from os import startfile
+
+from diddiparser import diddi_stdfuncs as functions
 
 # give some exceptions
 class DiddiScriptError(SyntaxError):
@@ -40,10 +41,19 @@ def stringToScript(diddi_str: str) -> list:
     return diddi_str.splitlines()
 
 # add here the known functions
-KNOWN_FUNCS = ["pyrun",
-               "ramz_goto",
-               "openfile",
-               "subprocess_run"]
+STD_FUNCS = ("pyrun", "ramz_goto", "openfile", "subprocess_run")
+
+KNOWN_FUNCS = {"pyrun": functions.pyrun,
+               "ramz_goto": functions.ramz_goto,
+               "openfile": functions.openfile,
+               "subprocess_run": functions.subprocess_run}
+
+# enable definitions for your code
+def define_func(name: str, func: Callable) -> None:
+    "define functions for a period"
+    if name in STD_FUNCS:
+        raise SyntaxError(f"You can't rewrite std function: '{name}'")
+    KNOWN_FUNCS[name] = func
 
 # build the complex parser from zero
 class DiddiScriptFile:
@@ -114,73 +124,20 @@ class DiddiScriptFile:
             raise DiddiScriptError(f"The command list is empty")
         for line in self.file:
             if line.lstrip().split("(")[0] in KNOWN_FUNCS:
-                if line.lstrip().split("(")[0] == "pyrun":
-                    # python code is here
-                    try:
-                        line = line.lstrip().replace(");", "").replace("'", "")
-                        exec(line[len("pyrun "):len(line)-1], self.py_locals)
-                    except Exception as e:
-                        type, value, tb = sys.exc_info()
-                        sys.last_type = type
-                        sys.last_value = value
-                        sys.last_traceback = tb
-                        traceback.print_exception(type, value, sys.last_traceback)
-                    print()
-                elif line.lstrip().split("(")[0] == "ramz_goto":
-                    # go to a ramz ed. product
-                    line = line.lstrip().replace(");", "").replace("'", "")
-                    line = line[len("ramz_goto("):len(line)-1]
-                    self.openRamz(line)
-                elif line.lstrip().split("(")[0] == "openfile":
-                    # start a file
-                    line = line.lstrip().replace(");", "").replace("'", "")
-                    line = line[len("openfile "):len(line)-1]
-                    try:
-                        startfile(line) # try not to move this func
-                        print(f"Done opening {line}")
-                    except Exception as e:
-                        type, value, tb = sys.exc_info()
-                        sys.last_type = type
-                        sys.last_value = value
-                        sys.last_traceback = tb
-                        traceback.print_exception(type, value, sys.last_traceback)
-                    print()
-                elif line.lstrip().split("(")[0] == "subprocess_run":
-                    line = line.lstrip().replace(");", "").replace("'", "")
-                    line = line[len("subprocess_run "):len(line)-1]
-                    print(f"Running '{line}'...")
-                    subprocess.run(shlex.split(line), shell=True)
-                    print()
-                else:
-                    # it is known - but not implemented yet
-                    # (this can include unknown language implementation)
-                    print("<Function not implemented: '%s'>"%line)
+                func = KNOWN_FUNCS[line.lstrip().split("(")[0]]
+                response = func(line).split("(")[1])
+                if response == "USE_SETUP" and line.lstrip().split("(")[0] == "ramz_goto":
+                    # patch for the ramz.diddi usage.
+                    path = line.lstrip().replace(");", "").replace("'", "")
+                    path = path[len("ramz_goto("):len(line)-1]
+                    setup_file = DiddiScriptSetup(f"c:/program files/{path.lower()}/.ramz/ramz.diddi")
+                    startfile(f"c:/program files/{path.lower()}/build/exe.win32-3.8/{path.lower()}.exe")
+                    continue
 
     def printCommands(self) -> None:
         "print all the commands from file."
         for cmd in self.file:
             print(cmd)
-
-    def openRamz(self, path: str) -> None:
-        "redirect to a Ramz Editions app."
-        if os.path.exists(f"c:/program files/ramz editions/{path.lower()}/build/exe.win32-3.8/{path.lower()}.exe"):
-            # it is hosted on "C:/Program Files/Ramz Editions"
-            startfile(f"c:/program files/ramz editions/{path.lower()}/build/exe.win32-3.8/{path.lower()}.exe")
-        elif os.path.exists(f"c:/program files/{path.lower()}/.ramz/ramz.diddi") and os.path.exists(f"c:/program files/{path.lower()}/build/exe.win32-3.8/{path.lower()}.exe"):
-            # not hosted in the "Ramz Editions" folder, but its "ramz.diddi" reveals it is from Ramz Editions at all
-            setup_file = DiddiScriptSetup(f"c:/program files/{path.lower()}/.ramz/ramz.diddi")
-            startfile(f"c:/program files/{path.lower()}/build/exe.win32-3.8/{path.lower()}.exe")
-        else:
-            # build a safe exception
-            try:
-                raise FileNotFoundError(f"Ramz Ed. app '{path}' does not exists or it is not a Ramz Ed. product")
-            except Exception as e:
-                type, value, tb = sys.exc_info()
-                sys.last_type = type
-                sys.last_value = value
-                sys.last_traceback = tb
-                traceback.print_exception(type, value, sys.last_traceback)
-                print()
 
     def __del__(self) -> None:
         if isinstance(self.io_file, io.TextIOWrapper):
@@ -208,7 +165,7 @@ class DiddiScriptSetup(DiddiScriptFile):
             elif line.startswith("RamzProductDir = "):
                 self.productDir = line[len("RamzProductDir = "):len(line)-1].replace('"', '')
         if not self.isRamzEdProduct() or not pathname.endswith("ramz.diddi"):
-            raise DiddiScriptError(f"This file is not a DiddiScript setup file ('ramz.diddi')")
+            raise DiddiScriptError(f"This file is not a DiddiScript setup file ('ramz.diddi' is missing!)")
 
     def isRamzEdProduct(self) -> None:
         "verify if the Diddi file is a real project setup file."
