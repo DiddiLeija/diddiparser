@@ -24,7 +24,7 @@ from typing import Optional, Callable
 # test if the platform is correct before importing the other libraries
 if sys.platform != "win32":
     # http://github.com/diddiparser/issues/6
-    sys.exit(f"this system is built for {__platform__} systems")
+    sys.exit(f"this package only accepts win32 platforms")
 from os import startfile
 
 # give some exceptions
