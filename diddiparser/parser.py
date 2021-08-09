@@ -15,7 +15,6 @@ __all__ = ["stringToScript",
 import sys
 import io
 import warnings
-import traceback
 import os
 import subprocess
 import shlex
@@ -42,10 +41,19 @@ def stringToScript(diddi_str: str) -> list:
     return diddi_str.splitlines()
 
 # add here the known functions
+STD_FUNCS = ("pyrun", "ramz_goto", "openfile", "subprocess_run")
+
 KNOWN_FUNCS = {"pyrun": functions.pyrun,
                "ramz_goto": functions.ramz_goto,
                "openfile": functions.openfile,
                "subprocess_run": functions.subprocess_run}
+
+# enable definitions for your code
+def define_func(name: str, func: Callable) -> None:
+    "define functions for a period"
+    if name in STD_FUNCS:
+        raise SyntaxError(f"You can't rewrite std function: '{name}'")
+    KNOWN_FUNCS[name] = func
 
 # build the complex parser from zero
 class DiddiScriptFile:
