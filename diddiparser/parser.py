@@ -27,6 +27,8 @@ if sys.platform != "win32":
     sys.exit(f"this package only accepts win32 platforms")
 from os import startfile
 
+from diddiparser import diddi_stdfuncs as functions
+
 # give some exceptions
 class DiddiScriptError(SyntaxError):
     pass
@@ -40,10 +42,10 @@ def stringToScript(diddi_str: str) -> list:
     return diddi_str.splitlines()
 
 # add here the known functions
-KNOWN_FUNCS = ["pyrun",
-               "ramz_goto",
+KNOWN_FUNCS = {"pyrun": functions.pyrun,
+               "ramz_goto": functions.ramz_goto,
                "openfile",
-               "subprocess_run"]
+               "subprocess_run"}
 
 # build the complex parser from zero
 class DiddiScriptFile:
@@ -114,47 +116,8 @@ class DiddiScriptFile:
             raise DiddiScriptError(f"The command list is empty")
         for line in self.file:
             if line.lstrip().split("(")[0] in KNOWN_FUNCS:
-                if line.lstrip().split("(")[0] == "pyrun":
-                    # python code is here
-                    try:
-                        line = line.lstrip().replace(");", "").replace("'", "")
-                        exec(line[len("pyrun "):len(line)-1], self.py_locals)
-                    except Exception as e:
-                        type, value, tb = sys.exc_info()
-                        sys.last_type = type
-                        sys.last_value = value
-                        sys.last_traceback = tb
-                        traceback.print_exception(type, value, sys.last_traceback)
-                    print()
-                elif line.lstrip().split("(")[0] == "ramz_goto":
-                    # go to a ramz ed. product
-                    line = line.lstrip().replace(");", "").replace("'", "")
-                    line = line[len("ramz_goto("):len(line)-1]
-                    self.openRamz(line)
-                elif line.lstrip().split("(")[0] == "openfile":
-                    # start a file
-                    line = line.lstrip().replace(");", "").replace("'", "")
-                    line = line[len("openfile "):len(line)-1]
-                    try:
-                        startfile(line) # try not to move this func
-                        print(f"Done opening {line}")
-                    except Exception as e:
-                        type, value, tb = sys.exc_info()
-                        sys.last_type = type
-                        sys.last_value = value
-                        sys.last_traceback = tb
-                        traceback.print_exception(type, value, sys.last_traceback)
-                    print()
-                elif line.lstrip().split("(")[0] == "subprocess_run":
-                    line = line.lstrip().replace(");", "").replace("'", "")
-                    line = line[len("subprocess_run "):len(line)-1]
-                    print(f"Running '{line}'...")
-                    subprocess.run(shlex.split(line), shell=True)
-                    print()
-                else:
-                    # it is known - but not implemented yet
-                    # (this can include unknown language implementation)
-                    print("<Function not implemented: '%s'>"%line)
+                func = KNOWN_FUNCS[line.lstrip().split("(")[0]]
+                func(line.lstrip().replace(")", "").split("(")[1])
 
     def printCommands(self) -> None:
         "print all the commands from file."
