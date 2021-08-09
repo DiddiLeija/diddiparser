@@ -63,8 +63,8 @@ def main() -> None:
     # start to loop
     if opts.extensions:
         # run extensions to modify the functions
-        if not os.path.exists(opts.extensions):
-            parser.error(f"Extensions file '{opts.extensions}' not found")
+        if not os.path.exists(opts.extensions) or not opts.extensions.endswith("diddi_extensions.py"):
+            parser.error(f"Extensions file '{opts.extensions}' not found or was not recognized (expected 'diddi_extensions.py')")
         import runpy
         try:
             runpy.run_path(opts.extensions)
