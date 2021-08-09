@@ -117,7 +117,14 @@ class DiddiScriptFile:
         for line in self.file:
             if line.lstrip().split("(")[0] in KNOWN_FUNCS:
                 func = KNOWN_FUNCS[line.lstrip().split("(")[0]]
-                func(line.lstrip().replace(")", "").split("(")[1])
+                response = func(line).split("(")[1])
+                if response == "USE_SETUP" and line.lstrip().split("(")[0] == "ramz_goto":
+                    # patch for the ramz.diddi usage.
+                    path = line.lstrip().replace(");", "").replace("'", "")
+                    path = path[len("ramz_goto("):len(line)-1]
+                    setup_file = DiddiScriptSetup(f"c:/program files/{path.lower()}/.ramz/ramz.diddi")
+                    startfile(f"c:/program files/{path.lower()}/build/exe.win32-3.8/{path.lower()}.exe")
+                    continue
 
     def printCommands(self) -> None:
         "print all the commands from file."
