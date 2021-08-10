@@ -40,8 +40,7 @@ def get_parser() -> argparse.ArgumentParser:
                         default=False,
                         dest="demo",
                         help="Run the DiddiParser demo.")
-    parser.add_argument("-e",
-                        "--extension",
+    parser.add_argument("--use-extensions",
                         action="store_true",
                         default=False,
                         dest="extensions",
