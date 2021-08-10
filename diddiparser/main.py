@@ -42,9 +42,10 @@ def get_parser() -> argparse.ArgumentParser:
                         help="Run the DiddiParser demo.")
     parser.add_argument("-e",
                         "--extension",
-                        dest="extensions"
-                        nargs="?"
-                        metavar="FILE")
+                        action="store_true",
+                        default=False,
+                        dest="extensions",
+                        help="Make DiddiParser to find an extensions file on the current directory")
     parser.usage = parser.format_usage()[len("usage: ") :] + __doc__
     return parser
     
@@ -58,18 +59,18 @@ def main() -> None:
         parser.error("you must specify 'file' or --demo")
     if opts.file and opts.demo is True:
         parser.error("you can't specify both 'file' and --demo")
-    if opts.extensions and opts.demo is True:
-        parser.error("Could not run extensions on demo files")
+    if opts.extensions is True and opts.demo is True:
+        parser.error("Could not run extensions on demo")
     # start to loop
-    if opts.extensions:
+    if opts.extensions is True:
         # run extensions to modify the functions
-        if not os.path.exists(opts.extensions) or not opts.extensions.endswith("diddi_extensions.py"):
-            parser.error(f"Extensions file '{opts.extensions}' not found or was not recognized (expected 'diddi_extensions.py')")
+        if not os.path.exists("diddi_extensions.py"):
+            parser.error(f"Extensions file ('diddi_extensions.py') not found")
         import runpy
         try:
-            runpy.run_path(opts.extensions)
+            runpy.run_path("diddi_extensions.py") # some modifications must be implemented here?
         except Exception as exc:
-            parser.error(str(exc))
+            parser.error("Could not run extensions due to %s: %r"%(type(exc).__name__, str(exc)))
     if opts.demo is True:
         demo()
         return None
