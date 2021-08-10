@@ -1,0 +1,11 @@
+/*
+    Extensions example
+    ==================
+    
+    For this example, you have to run on console:
+    
+        diddiparser sample.diddi --use-extensions
+*/
+
+ask_for_name("what's your name? "); !# ask for a name
+say_with_name("nice to meet you, %s"); !# and give a response
