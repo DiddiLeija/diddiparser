@@ -1,0 +1,9 @@
+/*
+    Sample setup file
+    =================
+    
+    Define some product data to be used by DiddiParser.
+*/
+
+RamzProductName = "Sample product";                   !# Product name
+RamzProductDir = "C:/Program Files/sample_product";   !# Product direction
