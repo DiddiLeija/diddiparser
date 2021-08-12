@@ -45,7 +45,9 @@ openfile('C:/Program Files/Ramz Editions/people.txt');
 subprocess_run('python -m turtledemo.minimal_hanoi');
 ```
 
-## Running Python code
+## Standard functions provided by DiddiParser
+
+### Running Python code
 
 To use Python code, call the function `pyrun()`:
 
@@ -81,7 +83,7 @@ pyrun(...);   !# Python code
 
 _\(Other languages will be available in the future. Reference to the issue [\#8](http://github.com/diddileija/diddiparser/issues/8) for discussing a possible language implementation\)._
 
-## Redirect to _Ramz. Editions_ products
+### Redirect to _Ramz. Editions_ products
 
 The function `ramz_goto()` will try to find a Ramz. Editions application hosted
 on the `Program Files/Ramz Editions` folder, or just in the `Program Files`
@@ -106,7 +108,7 @@ FileNotFoundError: The Ramz Editions file you are looking for does not exists
 
 _NOTE:_ This is just an experimental function, that will be applied when Ramz Editions is launched to the world.
 
-## Open other kind of files
+### Open other kind of files
 
 Use `openfile()` to open a known file on any direction on the disk. For example,
 `samplecode.diddi` uses this function as follows:
@@ -117,7 +119,7 @@ Use `openfile()` to open a known file on any direction on the disk. For example,
 openfile('C:/Program Files/Ramz Editions/people.txt');
 ```
 
-## Making a shell subprocess
+### Making a shell subprocess
 
 It uses a Python `subprocess.run(...)`. Use it as follows:
 
@@ -127,7 +129,7 @@ It uses a Python `subprocess.run(...)`. Use it as follows:
 subprocess_run('python -m turtledemo.minimal_hanoi');
 ```
 
-## Some function code rules
+### Some function code rules
 
 DiddiScript functions has **strict rules**. There are 2 specific rules for
 those functions:
@@ -150,3 +152,8 @@ pyrun('print("hello", end=" "); print("world!")') !# Giving 2 commands at a time
 ```
 
 is absolutely wrong!
+
+## Extending the DiddiParser interpreter
+
+Refer to the ["Extensions file"](http://github.com/DiddiLeija/diddiparser/wiki/Extensions-file) wiki article for more information
+about extending the parser.
