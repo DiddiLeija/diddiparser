@@ -7,6 +7,10 @@ import subprocess
 import shlex
 from typing import Optional
 
+# this only works under Windows systems,
+# see https://github.com/DiddiLeija/diddiparser/issues/6
+from os import startfile
+
 def pyrun(line: str) -> None:
     "equivalent of the DiddiScript `pyrun()`"
     try:
