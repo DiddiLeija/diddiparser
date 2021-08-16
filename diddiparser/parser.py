@@ -125,7 +125,7 @@ class DiddiScriptFile:
         for line in self.file:
             if line.lstrip().split("(")[0] in KNOWN_FUNCS:
                 func = KNOWN_FUNCS[line.lstrip().split("(")[0]]
-                response = func(line).split("(")[1])
+                response = func(line).split("(")[1]
                 if response == "USE_SETUP" and line.lstrip().split("(")[0] == "ramz_goto":
                     # patch for the ramz.diddi usage.
                     path = line.lstrip().replace(");", "").replace("'", "")
