@@ -11,7 +11,7 @@ setuptools.setup(
     description="Parser for DiddiScript files.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    license="MIT"
+    license="MIT",
     url="https://github.com/diddileija/diddiparser/blob/main/README.md",
     packages=setuptools.find_packages(),
     classifiers=[
