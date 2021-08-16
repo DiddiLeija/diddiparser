@@ -1,5 +1,17 @@
 # DiddiParser versions
 
+## diddiparser 1.2.1
+
+- Created `diddiparser.__main__`
+  - Now, you can call the console script using `python -m diddiparser`.
+- New feature: _function definitions_.
+  - You can define functions using a [DiddiScript extensions file](https://github.com/DiddiLeija/diddiparser/wiki/Extensions-file).
+- New feature: _`examples` folder on the GitHub source_.
+  - See some examples of the DiddiParser usage. See it [here](https://github.com/DiddiLeija/diddiparser/tree/main/examples).
+- Bug fixes
+  - `diddiparser.parser` had some bug fixes.
+  - `diddiparser.main` (and the console script) had some bug fixes.
+
 ## diddiparser 1.1.1
 
 - Bug fixes
