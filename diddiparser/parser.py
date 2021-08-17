@@ -125,7 +125,12 @@ class DiddiScriptFile:
         for line in self.file:
             if line.lstrip().split("(")[0] in KNOWN_FUNCS:
                 func = KNOWN_FUNCS[line.lstrip().split("(")[0]]
-                response = func(line).split("(")[1]
+                if func == functions.pyrun:
+                    # patch "pyrun()" to include the Python locals
+                    # on the code.
+                    response = func(line.split("(")[1], self.py_locals)
+                else:
+                    response = func(line.split("(")[1])
                 if response == "USE_SETUP" and line.lstrip().split("(")[0] == "ramz_goto":
                     # patch for the ramz.diddi usage.
                     path = line.lstrip().replace(");", "").replace("'", "")
