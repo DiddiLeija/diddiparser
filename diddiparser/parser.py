@@ -23,7 +23,7 @@ if sys.platform != "win32":
     sys.exit("This package only accepts win32 platforms")
 from os import startfile
 
-from diddiparser import diddi_stdfuncs as functions
+from diddiparser.lib import diddi_stdfuncs as functions
 
 
 # give some exceptions
