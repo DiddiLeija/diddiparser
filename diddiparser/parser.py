@@ -71,7 +71,7 @@ class DiddiScriptFile:
                func: Optional[Callable] = None,
                adapt: bool = False,
                py_locals: Optional[Dict[str, str]] = None
-        ) -> None:
+    ) -> None:
         "constructor, use a 'pathname' to open the file."
         if func is None or func == io.open:
             # you will need io.open, maybe a SuffixError must be raised
@@ -172,7 +172,7 @@ class DiddiScriptSetup(DiddiScriptFile):
                func: Optional[Callable] = None,
                adapt: bool = False,
                py_locals: Optional[Dict[str, str]] = None
-        ) -> None:
+    ) -> None:
         "Almost the same than the inherited __init__, but also tries to run the variable stuff..."
         DiddiScriptFile.__init__(self, pathname, func, adapt, py_locals)
         for line in self.file:
