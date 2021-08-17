@@ -2,43 +2,45 @@
 
 # use an __all__ sequence to control the "import *"
 __all__ = ["stringToScript", 
-           "DiddiScriptError", 
+           "DiddiScriptError",
            "FileSuffixError",
            "SuffixWarning",
            "stringToScript",
            "KNOWN_FUNCS",
-           "DiddiScriptFile", 
-           "DiddiScriptSetup", 
+           "DiddiScriptFile",
+           "DiddiScriptSetup",
            "demo"]
 
 # import the std libraries
 import sys
 import io
 import warnings
-import os
-import subprocess
-import shlex
 from typing import Optional, Callable
 
 # test if the platform is correct before importing the other libraries
 if sys.platform != "win32":
     # http://github.com/diddiparser/issues/6
-    sys.exit(f"this package only accepts win32 platforms")
+    sys.exit("This package only accepts win32 platforms")
 from os import startfile
 
 from diddiparser import diddi_stdfuncs as functions
 
+
 # give some exceptions
 class DiddiScriptError(SyntaxError):
     pass
+
 class FileSuffixError(DiddiScriptError):
     pass
+
 class SuffixWarning(UserWarning):
     pass
+
 
 # convert from string to a good stream, maybe used when using string scripts instead of pathnames
 def stringToScript(diddi_str: str) -> list:
     return diddi_str.splitlines()
+
 
 # add here the known functions
 STD_FUNCS = ("pyrun", "ramz_goto", "openfile", "subprocess_run")
@@ -48,6 +50,7 @@ KNOWN_FUNCS = {"pyrun": functions.pyrun,
                "openfile": functions.openfile,
                "subprocess_run": functions.subprocess_run}
 
+
 # enable definitions for your code
 def define_func(name: str, func: Callable) -> None:
     "define functions for a period"
@@ -55,25 +58,29 @@ def define_func(name: str, func: Callable) -> None:
         raise SyntaxError(f"You can't rewrite std function: '{name}'")
     KNOWN_FUNCS[name] = func
 
+
 # build the complex parser from zero
 class DiddiScriptFile:
     "open a DiddiScript file and give options to parse."
+
 
     def __init__(self,
                  pathname: str,
                  func: Optional[Callable] = None,
                  adapt: bool = False,
-                 py_locals: Optional[dict] = None) -> None:
+                 py_locals: Optional[dict] = None
+        ) -> None:
         "constructor, use a 'pathname' to open the file."
         if func is None:
-            # you will need io.open, maybe a SuffixError
-            # must be raised
+            # you will need io.open, maybe a SuffixError must be raised
             if not pathname.endswith(".diddi") and not adapt:
                 raise FileSuffixError(f"Pathname '{pathname}' does not refer to a DiddiScript file")
             elif adapt is True:
                 warnings.warn("You are attempting to open"
                              " another kind of file as a DiddiScript"
                              " file. The parser will try to adapt it.", SuffixWarning)
+            else:
+                pass
             # use io.open for the file streaming
             func = io.open
             self.io_file = func(pathname, "r")
@@ -88,6 +95,7 @@ class DiddiScriptFile:
         self.pathname = pathname
         self.extractcode()
 
+
     def extractcode(self) -> None:
         "delete the comments."
         self.file = []
@@ -95,28 +103,29 @@ class DiddiScriptFile:
         for line in self.io_file:
             line = line.rstrip()
             # look for block comments
-            if stop and not "*/" in line:
+            if stop and "*/" not in line:
                 # it's still being a block comment, keep going
                 continue
             elif stop and "*/" in line:
                 # block comment ends
                 stop = False
-                line = line[line.find("*/") + 2:].lstrip() # try to extract something after the comment block
+                line = line[line.find("*/") + 2:].lstrip()  # try to extract something after the comment block
             if "/*" in line:
                 # start block comment, stop reading
                 stop = True
                 if "*/" in line:
                     # it just covers one line, but it will be parsed as commonly
                     stop = False
-                line = line[:line.find("/*")].lstrip() # try to extract something before the comment block
+                line = line[:line.find("/*")].lstrip()  # try to extract something before the comment block
             # replace the single-line comments
             cmd = line.split("!#")[0].rstrip()
             # enter the command
             if len(cmd.strip()) > 0:
                 if not cmd.endswith(";"):
-                    raise DiddiScriptError(f"Each command line must end with ';'")
-                self.file.append(cmd[:len(cmd)- 1])
+                    raise DiddiScriptError("Each command line must end with ';'")
+                self.file.append(cmd[:len(cmd) - 1])
             del(cmd)
+
 
     def runfile(self) -> None:
         "'compile' the file defined on the __init__ and run."
@@ -139,10 +148,12 @@ class DiddiScriptFile:
                     startfile(f"c:/program files/{path.lower()}/build/exe.win32-3.8/{path.lower()}.exe")
                     continue
 
+
     def printCommands(self) -> None:
         "print all the commands from file."
         for cmd in self.file:
             print(cmd)
+
 
     def __del__(self) -> None:
         if isinstance(self.io_file, io.TextIOWrapper):
@@ -152,23 +163,26 @@ class DiddiScriptFile:
             # any idea of how to close any other file stream?
             pass
 
+
 class DiddiScriptSetup(DiddiScriptFile):
     "class for setup DiddiScripts ('ramz.diddi')"
     productDir = None
     productName = None
 
+
     def __init__(self,
                  pathname: str,
                  func: Optional[Callable] = None,
                  adapt: bool = False,
-                 py_locals: Optional[dict] = None):
+                 py_locals: Optional[dict] = None
+        ) -> None:
         "Almost the same than the inherited __init__, but also tries to run the variable stuff..."
         DiddiScriptFile.__init__(self, pathname, func, adapt, py_locals)
         for line in self.file:
             if line.startswith("RamzProductName = "):
-                self.productName = line[len("RamzProductName = "):len(line)-1].replace('"', '')
+                self.productName = line[len("RamzProductName = "):len(line) - 1].replace('"', '')
             elif line.startswith("RamzProductDir = "):
-                self.productDir = line[len("RamzProductDir = "):len(line)-1].replace('"', '')
+                self.productDir = line[len("RamzProductDir = "):len(line) - 1].replace('"', '')
         if not self.isRamzEdProduct() or not pathname.endswith("ramz.diddi"):
             raise DiddiScriptError(f"This file is not a DiddiScript setup file ('ramz.diddi' is missing!)")
 
@@ -181,7 +195,7 @@ def demo() -> None:
     # make a simple demo.
     # you need Colorama to run it with
     # a pretty colored output.
-    
+
     # add a string, instead of calling the file with io.open()
     file_string = """
 /*
@@ -206,7 +220,7 @@ subprocess_run('python -m turtledemo.minimal_hanoi');"""
     from colorama import init, Fore, Style
     import time
     init(autoreset=True)
-    dsf = DiddiScriptFile(file_string, func=stringToScript) # implement this func
+    dsf = DiddiScriptFile(file_string, func=stringToScript)  # implement this func
     print("Running demo... please wait...")
     time.sleep(1)
     print(Fore.GREEN+Style.BRIGHT+"File opened succesfully!")
@@ -218,5 +232,3 @@ subprocess_run('python -m turtledemo.minimal_hanoi');"""
     dsf.runfile()
     print(Fore.BLUE+Style.BRIGHT+"=-"*30 + "=")
     print(Fore.GREEN+Style.BRIGHT+"DONE!")
-
-
