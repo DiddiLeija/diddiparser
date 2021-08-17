@@ -14,7 +14,7 @@ diddiparser --demo
 
 from diddiparser import __version__
 from diddiparser.parser import (DiddiScriptFile,
-                                DiddiScriptSetup, 
+                                DiddiScriptSetup,
                                 demo)
 import os
 import argparse
@@ -50,8 +50,7 @@ def get_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def parse_args(parser: argparse.ArgumentParser) -> None:
-    opts = parser.parse_args()
+def verify_args(parser, opts) -> None:
     # verify the args
     if opts.demo is True and opts.is_setup is True:
         parser.error("--demo and --is-setup cannot be both true")
@@ -61,6 +60,11 @@ def parse_args(parser: argparse.ArgumentParser) -> None:
         parser.error("you can't specify both 'file' and --demo")
     if opts.extensions is True and opts.demo is True:
         parser.error("Could not run extensions on demo")
+
+
+def parse_args(parser: argparse.ArgumentParser) -> None:
+    opts = parser.parse_args()
+    verify_args(parser, opts)
     # start to loop
     if opts.extensions is True:
         # run extensions to modify the functions
@@ -70,7 +74,7 @@ def parse_args(parser: argparse.ArgumentParser) -> None:
         try:
             runpy.run_path("diddi_extensions.py")  # some modifications must be implemented here?
         except Exception as exc:
-            parser.error("Could not run extensions due to %s: %r"%(type(exc).__name__, str(exc)))
+            parser.error("Could not run extensions due to %s: %r" % (type(exc).__name__, str(exc)))
     if opts.demo is True:
         demo()
         return None
