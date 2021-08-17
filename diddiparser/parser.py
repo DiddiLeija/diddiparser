@@ -1,7 +1,7 @@
 "The main parsing tools."
 
 # use an __all__ sequence to control the "import *"
-__all__ = ["stringToScript", 
+__all__ = ["stringToScript",
            "DiddiScriptError",
            "FileSuffixError",
            "SuffixWarning",
@@ -15,7 +15,7 @@ __all__ = ["stringToScript",
 import sys
 import io
 import warnings
-from typing import Optional, Callable
+from typing import Optional, Callable, Dict
 
 # test if the platform is correct before importing the other libraries
 if sys.platform != "win32":
@@ -30,8 +30,10 @@ from diddiparser import diddi_stdfuncs as functions
 class DiddiScriptError(SyntaxError):
     pass
 
+
 class FileSuffixError(DiddiScriptError):
     pass
+
 
 class SuffixWarning(UserWarning):
     pass
@@ -63,12 +65,11 @@ def define_func(name: str, func: Callable) -> None:
 class DiddiScriptFile:
     "open a DiddiScript file and give options to parse."
 
-
     def __init__(self,
                  pathname: str,
                  func: Optional[Callable] = None,
                  adapt: bool = False,
-                 py_locals: Optional[dict] = None
+                 py_locals: Optional[Dict[str, str]] = None
         ) -> None:
         "constructor, use a 'pathname' to open the file."
         if func is None:
@@ -77,8 +78,8 @@ class DiddiScriptFile:
                 raise FileSuffixError(f"Pathname '{pathname}' does not refer to a DiddiScript file")
             elif adapt is True:
                 warnings.warn("You are attempting to open"
-                             " another kind of file as a DiddiScript"
-                             " file. The parser will try to adapt it.", SuffixWarning)
+                              " another kind of file as a DiddiScript"
+                              " file. The parser will try to adapt it.", SuffixWarning)
             else:
                 pass
             # use io.open for the file streaming
@@ -94,7 +95,6 @@ class DiddiScriptFile:
         self.file = None
         self.pathname = pathname
         self.extractcode()
-
 
     def extractcode(self) -> None:
         "delete the comments."
@@ -126,7 +126,6 @@ class DiddiScriptFile:
                 self.file.append(cmd[:len(cmd) - 1])
             del(cmd)
 
-
     def runfile(self) -> None:
         "'compile' the file defined on the __init__ and run."
         if self.file is None or len(self.file) == 0:
@@ -144,16 +143,14 @@ class DiddiScriptFile:
                     # patch for the ramz.diddi usage.
                     path = line.lstrip().replace(");", "").replace("'", "")
                     path = path[len("ramz_goto("):len(line)-1]
-                    setup_file = DiddiScriptSetup(f"c:/program files/{path.lower()}/.ramz/ramz.diddi")
+                    DiddiScriptSetup.__init__(f"c:/program files/{path.lower()}/.ramz/ramz.diddi")
                     startfile(f"c:/program files/{path.lower()}/build/exe.win32-3.8/{path.lower()}.exe")
                     continue
-
 
     def printCommands(self) -> None:
         "print all the commands from file."
         for cmd in self.file:
             print(cmd)
-
 
     def __del__(self) -> None:
         if isinstance(self.io_file, io.TextIOWrapper):
@@ -169,12 +166,11 @@ class DiddiScriptSetup(DiddiScriptFile):
     productDir = None
     productName = None
 
-
     def __init__(self,
                  pathname: str,
                  func: Optional[Callable] = None,
                  adapt: bool = False,
-                 py_locals: Optional[dict] = None
+                 py_locals: Optional[Dict[str, str]] = None
         ) -> None:
         "Almost the same than the inherited __init__, but also tries to run the variable stuff..."
         DiddiScriptFile.__init__(self, pathname, func, adapt, py_locals)
@@ -184,7 +180,7 @@ class DiddiScriptSetup(DiddiScriptFile):
             elif line.startswith("RamzProductDir = "):
                 self.productDir = line[len("RamzProductDir = "):len(line) - 1].replace('"', '')
         if not self.isRamzEdProduct() or not pathname.endswith("ramz.diddi"):
-            raise DiddiScriptError(f"This file is not a DiddiScript setup file ('ramz.diddi' is missing!)")
+            raise DiddiScriptError("This file is not a DiddiScript setup file ('ramz.diddi' is missing!)")
 
     def isRamzEdProduct(self) -> None:
         "verify if the Diddi file is a real project setup file."
