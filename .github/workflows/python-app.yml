@@ -38,4 +38,4 @@ jobs:
         # The GitHub editor is 127 chars wide
         flake8 . --count --max-complexity=10 --max-line-length=127 --statistics
     - name: Finalize the test
-      run: python -c "print('Process completed succesfully!')
+      run: python -c "print('Process completed succesfully!')"
