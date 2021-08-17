@@ -71,7 +71,7 @@ class DiddiScriptFile:
             if not pathname.endswith(".diddi") and not adapt:
                 raise FileSuffixError(f"Pathname '{pathname}' does not refer to a DiddiScript file")
             elif adapt is True:
-                warnngs.warn("You are attempting to open"
+                warnings.warn("You are attempting to open"
                              " another kind of file as a DiddiScript"
                              " file. The parser will try to adapt it.", SuffixWarning)
             # use io.open for the file streaming
