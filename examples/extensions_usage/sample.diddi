@@ -7,5 +7,4 @@
         diddiparser sample.diddi --use-extensions
 */
 
-ask_for_name("what's your name? "); !# ask for a name
-say_with_name("nice to meet you, %s"); !# and give a response
+ask_for_name("what's your name? "); !# ask for a name and give a response
