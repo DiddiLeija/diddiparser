@@ -3,6 +3,7 @@
 import traceback
 import sys
 import warnings
+from typing import Dict
 
 
 def pyrun(line: str, py_locals: Dict[str, str]) -> None:
