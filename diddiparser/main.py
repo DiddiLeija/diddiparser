@@ -75,7 +75,7 @@ def main() -> None:
         return None
     elif not os.path.exists(opts.file):
         parser.error("seems like the DiddiScript filename does not exists")
-    if opt.is_setup is True:
+    if opts.is_setup is True:
         ds = DiddiScriptSetup(opts.file)
         print("Product Name:", ds.productName)
         print("Product location:", ds.productDir)
