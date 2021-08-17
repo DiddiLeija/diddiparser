@@ -23,7 +23,8 @@ if sys.platform != "win32":
     sys.exit("This package only accepts win32 platforms")
 from os import startfile
 
-from diddiparser.lib import diddi_stdfuncs as functions
+from diddiparser.lib import diddi_stdfuncs
+from diddiparser.lib import lang_runners
 
 
 # give some exceptions
@@ -47,10 +48,10 @@ def stringToScript(diddi_str: str) -> list:
 # add here the known functions
 STD_FUNCS = ("pyrun", "ramz_goto", "openfile", "subprocess_run")
 
-KNOWN_FUNCS = {"pyrun": functions.pyrun,
-               "ramz_goto": functions.ramz_goto,
-               "openfile": functions.openfile,
-               "subprocess_run": functions.subprocess_run}
+KNOWN_FUNCS = {"pyrun": lang_runners.pyrun,
+               "ramz_goto": diddi_stdfuncs.ramz_goto,
+               "openfile": diddi_stdfuncs.openfile,
+               "subprocess_run": diddi_stdfuncs.subprocess_run}
 
 
 # enable definitions for your code
@@ -133,7 +134,7 @@ class DiddiScriptFile:
         for line in self.file:
             if line.lstrip().split("(")[0] in KNOWN_FUNCS:
                 func = KNOWN_FUNCS[line.lstrip().split("(")[0]]
-                if func == functions.pyrun:
+                if func == diddi_stdfuncs.pyrun:
                     # patch "pyrun()" to include the Python locals
                     # on the code.
                     response = func(line.split("(")[1], self.py_locals)
