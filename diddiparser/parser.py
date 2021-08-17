@@ -65,26 +65,26 @@ def define_func(name: str, func: Callable) -> None:
 class DiddiScriptFile:
     "open a DiddiScript file and give options to parse."
 
-    def __init__(self,
-                 pathname: str,
-                 func: Optional[Callable] = None,
-                 adapt: bool = False,
-                 py_locals: Optional[Dict[str, str]] = None
+    def __init__(
+               self,
+               pathname: str,
+               func: Optional[Callable] = None,
+               adapt: bool = False,
+               py_locals: Optional[Dict[str, str]] = None
         ) -> None:
         "constructor, use a 'pathname' to open the file."
-        if func is None:
+        if func is None or func == io.open:
             # you will need io.open, maybe a SuffixError must be raised
             if not pathname.endswith(".diddi") and not adapt:
                 raise FileSuffixError(f"Pathname '{pathname}' does not refer to a DiddiScript file")
             elif adapt is True:
-                warnings.warn("You are attempting to open"
-                              " another kind of file as a DiddiScript"
-                              " file. The parser will try to adapt it.", SuffixWarning)
+                warnings.warn("You are attempting to open "
+                              "another kind of file as a DiddiScript "
+                              "file. The parser will try to adapt it.", SuffixWarning)
             else:
                 pass
             # use io.open for the file streaming
-            func = io.open
-            self.io_file = func(pathname, "r")
+            self.io_file = io.open(pathname, "r")
         else:
             # only use the function and ignore anything else
             self.io_file = func(pathname)
@@ -129,7 +129,7 @@ class DiddiScriptFile:
     def runfile(self) -> None:
         "'compile' the file defined on the __init__ and run."
         if self.file is None or len(self.file) == 0:
-            raise DiddiScriptError(f"The command list is empty")
+            raise DiddiScriptError("The command list is empty")
         for line in self.file:
             if line.lstrip().split("(")[0] in KNOWN_FUNCS:
                 func = KNOWN_FUNCS[line.lstrip().split("(")[0]]
@@ -166,11 +166,12 @@ class DiddiScriptSetup(DiddiScriptFile):
     productDir = None
     productName = None
 
-    def __init__(self,
-                 pathname: str,
-                 func: Optional[Callable] = None,
-                 adapt: bool = False,
-                 py_locals: Optional[Dict[str, str]] = None
+    def __init__(
+               self,
+               pathname: str,
+               func: Optional[Callable] = None,
+               adapt: bool = False,
+               py_locals: Optional[Dict[str, str]] = None
         ) -> None:
         "Almost the same than the inherited __init__, but also tries to run the variable stuff..."
         DiddiScriptFile.__init__(self, pathname, func, adapt, py_locals)
