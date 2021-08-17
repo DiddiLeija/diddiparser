@@ -1,0 +1,1 @@
+"Standard lib for DiddiScript."
