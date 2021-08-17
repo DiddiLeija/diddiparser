@@ -64,9 +64,8 @@ def openfile(line: str) -> None:
         print()
 
 def subprocess_run(line: str) -> None:
-    elif line.lstrip().split("(")[0] == "subprocess_run":
-        line = line.lstrip().replace(");", "").replace("'", "")
-        line = line[len("subprocess_run "):len(line)-1]
-        print(f"Running '{line}'...")
-        subprocess.run(shlex.split(line), shell=True)
-        print()
+    line = line.lstrip().replace(");", "").replace("'", "")
+    line = line[len("subprocess_run "):len(line)-1]
+    print(f"Running '{line}'...")
+    subprocess.run(shlex.split(line), shell=True)
+    print()
