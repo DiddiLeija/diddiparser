@@ -3,7 +3,7 @@
 from diddiparser.parser import def_func
 
 
-def ask(s: str) -> None:
+def ask_and_response(s: str) -> None:
     "ask for a name and save it."
     name = input(s)
     print(f"Hello, {name}. I am DiddiScript.")
