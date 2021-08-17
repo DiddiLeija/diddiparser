@@ -1,29 +1,30 @@
 """Standard functions for DiddiScript."""
 
+import os
 import sys
 import traceback
 import warnings
 import subprocess
 import shlex
-from typing import Optional
+from typing import Optional, Dict
 
 # this only works under Windows systems,
 # see https://github.com/DiddiLeija/diddiparser/issues/6
 from os import startfile
 
-def pyrun(line: str) -> None:
+def pyrun(line: str, py_locals: Dict[str, str]) -> None:
     "equivalent of the DiddiScript `pyrun()`"
     try:
         line = line.lstrip().replace(");", "").replace("'", "")
-        exec(line[len("pyrun "):len(line)-1], self.py_locals)
+        exec(line[len("pyrun "):len(line)-1], py_locals)
     except Warning as e:
         warnings.warn(str(e), type(e))
     except Exception as e:
-        type, value, tb = sys.exc_info()
+        exc_type, value, tb = sys.exc_info()
         sys.last_type = type
         sys.last_value = value
         sys.last_traceback = tb
-        traceback.print_exception(type, value, sys.last_traceback)
+        traceback.print_exception(exc_type, value, sys.last_traceback)
         print()
     return None
 
@@ -56,11 +57,11 @@ def openfile(line: str) -> None:
         startfile(line) # try not to move this func
         print(f"Done opening {line}")
     except Exception as e:
-        type, value, tb = sys.exc_info()
+        exc_type, value, tb = sys.exc_info()
         sys.last_type = type
         sys.last_value = value
         sys.last_traceback = tb
-        traceback.print_exception(type, value, sys.last_traceback)
+        traceback.print_exception(exc_type, value, sys.last_traceback)
         print()
 
 def subprocess_run(line: str) -> None:
