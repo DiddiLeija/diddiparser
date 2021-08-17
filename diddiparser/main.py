@@ -2,7 +2,7 @@
 """
 Parse DiddiScript files and DiddiScript Setup files.
 
-For the console script, use one of this option 
+For the console script, use one of this option
 combinations:
 
 diddiparser [file]
@@ -13,11 +13,12 @@ diddiparser --demo
 # Add the console scripts here, as suggested on issue #1.
 
 from diddiparser import __version__
-from diddiparser.parser import (DiddiScriptFile, 
+from diddiparser.parser import (DiddiScriptFile,
                                 DiddiScriptSetup, 
                                 demo)
 import os
 import argparse
+
 
 def get_parser() -> argparse.ArgumentParser:
     # generate an argument parser for running DiddiScript files
@@ -45,11 +46,11 @@ def get_parser() -> argparse.ArgumentParser:
                         default=False,
                         dest="extensions",
                         help="Make DiddiParser to find an extensions file on the current directory")
-    parser.usage = parser.format_usage()[len("usage: ") :] + __doc__
+    parser.usage = parser.format_usage()[len("usage: "):] + __doc__
     return parser
-    
-def main() -> None:
-    parser = get_parser()
+
+
+def parse_args(parser: argparse.ArgumentParser) -> None:
     opts = parser.parse_args()
     # verify the args
     if opts.demo is True and opts.is_setup is True:
@@ -64,10 +65,10 @@ def main() -> None:
     if opts.extensions is True:
         # run extensions to modify the functions
         if not os.path.exists("diddi_extensions.py"):
-            parser.error(f"Extensions file ('diddi_extensions.py') not found")
+            parser.error("Extensions file ('diddi_extensions.py') not found")
         import runpy
         try:
-            runpy.run_path("diddi_extensions.py") # some modifications must be implemented here?
+            runpy.run_path("diddi_extensions.py")  # some modifications must be implemented here?
         except Exception as exc:
             parser.error("Could not run extensions due to %s: %r"%(type(exc).__name__, str(exc)))
     if opts.demo is True:
@@ -82,6 +83,12 @@ def main() -> None:
     else:
         ds = DiddiScriptFile(opts.file)
         ds.runfile()
+
+
+def main() -> None:
+    parser = get_parser()
+    parse_args(parser)
+
 
 if __name__ == '__main__':
     main()
