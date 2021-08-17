@@ -60,7 +60,7 @@ def openfile(line: str) -> None:
     line = line.lstrip().replace(");", "").replace("'", "")
     line = line[len("openfile "):len(line)-1]
     try:
-        startfile(line) # try not to move this func
+        startfile(line)  # try not to move this func
         print(f"Done opening {line}")
     except Exception:
         exc_type, value, tb = sys.exc_info()
