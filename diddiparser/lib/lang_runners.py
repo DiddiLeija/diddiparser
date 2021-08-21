@@ -5,6 +5,8 @@ import sys
 import warnings
 from typing import Dict
 
+__all__ = ["pyrun"]
+
 
 def pyrun(line: str, py_locals: Dict[str, str]) -> None:
     "equivalent of the DiddiScript `pyrun()`"
