@@ -23,8 +23,7 @@ if sys.platform != "win32":
     sys.exit("This package only accepts win32 platforms")
 from os import startfile
 
-from diddiparser.lib import diddi_stdfuncs
-from diddiparser.lib import lang_runners
+from diddiparser.lib import KNOWN_FUNCS, STD_FUNCS
 
 
 # give some exceptions
@@ -43,15 +42,6 @@ class SuffixWarning(UserWarning):
 # convert from string to a good stream, maybe used when using string scripts instead of pathnames
 def stringToScript(diddi_str: str) -> list:
     return diddi_str.splitlines()
-
-
-# add here the known functions
-STD_FUNCS = ("pyrun", "ramz_goto", "openfile", "subprocess_run")
-
-KNOWN_FUNCS = {"pyrun": lang_runners.pyrun,
-               "ramz_goto": diddi_stdfuncs.ramz_goto,
-               "openfile": diddi_stdfuncs.openfile,
-               "subprocess_run": diddi_stdfuncs.subprocess_run}
 
 
 # enable definitions for your code
