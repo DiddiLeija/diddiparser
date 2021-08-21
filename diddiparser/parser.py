@@ -124,7 +124,7 @@ class DiddiScriptFile:
         for line in self.file:
             if line.lstrip().split("(")[0] in KNOWN_FUNCS:
                 func = KNOWN_FUNCS[line.lstrip().split("(")[0]]
-                if func == diddi_stdfuncs.pyrun:
+                if func == KNOWN_FUNCS["pyrun"]:
                     # patch "pyrun()" to include the Python locals
                     # on the code.
                     response = func(line.split("(")[1], self.py_locals)
