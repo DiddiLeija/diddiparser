@@ -11,6 +11,8 @@ from typing import Optional
 # see https://github.com/DiddiLeija/diddiparser/issues/6
 from os import startfile
 
+__all__ = ["ramz_goto", "openfile", "subprocess_run"]
+
 
 def ramz_goto(line: str) -> Optional[str]:
     "equivalent of `ramz_goto()`"
