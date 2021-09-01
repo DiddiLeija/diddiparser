@@ -1,5 +1,10 @@
 # DiddiParser versions
 
+## diddiparser 1.3
+
+- The stdlib is now `diddiparser.lib`
+- Bug fixes
+
 ## diddiparser 1.2.1
 
 - Created `diddiparser.__main__`
