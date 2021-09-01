@@ -1,4 +1,4 @@
-# DiddiParser - version 1.2.1
+# DiddiParser - version 1.3
 
 Parse DiddiScript files and run their simple syntax.
 
