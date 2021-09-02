@@ -75,7 +75,7 @@ class DiddiScriptFile:
             else:
                 pass
             # use io.open for the file streaming
-            self.io_file = io.open(pathname, "r")
+            self.io_file = io.open(pathname, "r").read()
         else:
             # only use the function and ignore anything else
             self.io_file = func(pathname)
